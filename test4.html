@@ -1,0 +1,131 @@
+<html lang="en" >
+   <head>
+      <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+	  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+      <script language="javascript">
+          angular
+            .module('selectionApp', ['ngMaterial'])
+            .controller('sliderCtrl', sliderCtrl);
+
+          function sliderCtrl ($scope, $mdSidenav) {
+             $scope.color = {
+               
+                
+             };
+             $scope.rating = { minValue: 10,
+                              maxValue: 90};
+                          
+             $scope.users = [
+               { id: 1, sex: 'Male' },
+               { id: 2, sex: 'Female' }
+            ];
+         }	  
+      </script> 
+      
+      <style>
+          .md-track-ticks canvas { display: none; }
+          .mycontent-left {
+                border-right: 1px solid #e2e0e0;
+              }
+      </style>
+   </head>
+   <body ng-app="selectionApp"> 
+
+       <div id="sliderCtrl" ng-controller="sliderCtrl as ctrl" layout="row" ng-cloak class="row">
+           <div class="col-md-2"></div>
+           <div class="col-md-8">
+               <div class="panel panel-default" style="margin-top: 5%">
+                   
+                   
+                   <div class="row">
+                       
+                       
+                       <div class="col-md-8 mycontent-left">   
+                   <md-content style="margin: 16px; padding:16px">
+
+                       <div layout>
+                           <h4 style="margin-top:10px;margin-right: 15px">Age</h4>
+                           
+                           <md-slider  slider-model="rating.minValue" md-slider-high="rating.maxValue" flex md-discrete ng-model="rating" step="1" min="1" max="100" aria-label="rating" class="md-track-ticks"></md-slider>
+                           <md-input-container flex="20" layout layout-align="">
+                               <input flex type="number" ng-model="rating" aria-label="rating" aria-controls="rating-slider"><br>
+                           </md-input-container>
+                           <br>
+                           
+                           </div>
+                           
+                       </div>
+                       
+                       
+                       <div class="col-md-2 " style="margin-top:40px">
+                           <md-checkbox ng-model="isChecked" aria-label="Age"></md-checkbox><br>
+                           
+                       </div>
+                       
+                   </md-content>
+                    
+                           
+                           
+                       <div class="col-md-2" style="margin-top:10px">
+                           <md-input-container flex="50" layout layout-align="">
+                               <input flex type="number" ng-model="ageRate" aria-label="rating" aria-controls="rating-slider">
+                           </md-input-container>
+                           
+                           
+                       </div>
+                           
+                           
+                   </div>
+                   
+                   
+                   <div class="row">
+                       
+                       
+                       <div class="col-md-8 mycontent-left">   
+                   <md-content style="margin: 16px; padding:16px">
+
+                       <div layout>
+                           
+                           <md-input-container>
+                               <label>Gender</label>
+                               <md-select ng-model="selectedUser">
+                                   <md-option ng-value="user" ng-repeat="user in users">{{ user.sex }}</md-option>
+                               </md-select>
+                           </md-input-container>
+                           </div>
+                           
+                       </div>
+                       
+                       
+                       <div class="col-md-2 " style="margin-top:40px">
+                           
+                           <md-checkbox ng-model="isChecked" aria-label="Gender"></md-checkbox>
+                       </div>
+                       
+                   </md-content>
+                    
+                           
+                           
+                       <div class="col-md-2" style="margin-top:10px">
+                           
+                           
+                           <md-input-container flex="50" layout layout-align="">
+                               <input flex type="number" ng-model="ageRate" aria-label="rating" aria-controls="rating-slider">
+                           </md-input-container>
+                       </div>
+                           
+                           
+                   </div>
+               </div>
+           </div>
+           <div class="col-md-2"></div>
+       </div>
+
+   </body>
+</html>
