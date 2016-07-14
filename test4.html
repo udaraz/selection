@@ -6,6 +6,9 @@
       <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
       <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
       <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      
+
 	  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
       
@@ -13,7 +16,8 @@
           angular
             .module('selectionApp', ['ngMaterial'])
             .controller('sliderCtrl', sliderCtrl);
-
+            
+            
           function sliderCtrl ($scope) {
                                       
              $scope.users = [
@@ -26,8 +30,69 @@
                 { id: 2, location: 'Colombo' },
                 { id: 3, location: 'Kurunegala' }
             ];
-         }	  
-      </script> 
+            
+            /*$scope.getTotal= function (){
+              var total=$scope.ageRate+$scope.sexRate+$scope.locationRate+$scope.gitRate+$scope.gplusRate;
+              return total;
+              
+            };*/
+        
+            $scope.error=function (){
+              var total=$scope.tot;
+              if(total>100){
+                  var msg="out";
+                  return msg;
+              }
+            };
+            
+            
+         }
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      
+    function drawChart() {
+        
+        var data = google.visualization.arrayToDataTable([
+          ['Effort', 'Amount given'],
+          ['Age', 15 ],
+          ['Sex', 15],
+        ]);
+
+        var options = {
+          pieHole: 0.8,
+          pieSliceTextStyle: {
+            color: 'black',
+          },
+          legend: 'none'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donut_single'));
+        chart.draw(data, options);
+      }
+         
+            
+      
+      </script>
+      
+      <!--<script>
+          angular
+            .module('selectionAPP', ['n3-pie-chart'])
+            .controller('chart',
+    
+            function drw($scope){
+                $scope.options = {thickness: 10};
+            
+            $scope.data = [
+                {label: "one", value: 12.2, color: "red"}, 
+                {label: "two", value: 45, color: "#00ff00"},
+                {label: "three", value: 10, color: "rgb(0, 0, 255)"}
+              ];
+            });
+      </script> -->
+      
+      <script>
+      
+      </script>
       
       <style>
           .md-track-ticks canvas { display: none; }
@@ -43,7 +108,7 @@
            <div class="col-md-8">
                
                <div class="panel panel-default" style="margin-top: 5%">
-                   
+                  
                    
                    <div class="row">
                        <div class="col-md-8 mycontent-left">   
@@ -52,9 +117,9 @@
                        <div layout>
                            <p style="margin-top:10px;margin-right: 15px;font-weight: bold;font-size: 18px">Age</p>
                            
-                           <md-slider  slider-model="rating.minValue" md-slider-high="rating.maxValue" flex md-discrete ng-model="rating" step="1" min="1" max="100" aria-label="rating" class="md-track-ticks"></md-slider>
+                           <md-slider  slider-model="rating.minValue" md-slider-high="rating.maxValue" flex md-discrete ng-model="rating" step="1" min="1" max="100" aria-label="rating" class="md-track-ticks" ng-disabled="isAge"></md-slider>
                            <md-input-container flex="20" layout layout-align="">
-                               <input flex type="number" ng-model="rating" aria-label="rating" aria-controls="rating-slider"><br>
+                               <input flex type="number" ng-model="rating" aria-label="rating" aria-controls="rating-slider" ng-readonly="isAge"><br>
                            </md-input-container>
                            <br>
                            
@@ -74,7 +139,8 @@
                            
                        <div class="col-md-2" style="margin-top:10px">
                            <md-input-container flex="50" layout layout-align="">
-                               <input flex type="number" ng-model="ageRate" aria-label="rating" aria-controls="rating-slider">
+                               <input flex type="number" ng-model="ageRate" aria-label="rating" aria-controls="rating-slider" ng-readonly="!isAge" min="1" max="100">
+                               
                            </md-input-container>
                            
                            
@@ -95,7 +161,7 @@
                            <md-input-container style="width: 100%">
                                <label>Gender</label>
                                <md-select ng-model="selectedUser">
-                                   <md-option ng-value="user" ng-repeat="user in users">{{ user.sex }}</md-option>
+                                   <md-option ng-value="user" ng-repeat="user in users" ng-disabled="isGender">{{ user.sex }}</md-option>
                                </md-select>
                            </md-input-container>
                            </div>
@@ -114,7 +180,7 @@
                            
                            
                            <md-input-container flex="50" layout layout-align="">
-                               <input flex type="number" ng-model="sexRate" aria-label="rating" aria-controls="rating-slider">
+                               <input flex type="number" ng-model="sexRate" aria-label="rating" aria-controls="rating-slider" ng-readonly="!isGender" min="1" max="100">
                            </md-input-container>
                        </div>
                            
@@ -132,7 +198,7 @@
                            <md-input-container style="width: 100%">
                                <label>Location</label>
                                <md-select ng-model="selectedLocation" >
-                                   <md-option ng-value="loca" ng-repeat="loca in locations">{{ loca.location }}</md-option>
+                                   <md-option ng-value="loca" ng-repeat="loca in locations" ng-disabled="isLocation">{{ loca.location }}</md-option>
                                </md-select>
                            </md-input-container>
                        </div>
@@ -152,7 +218,7 @@
                        <div class="col-md-2" style="margin-top:10px">
                            
                            <md-input-container flex="50" layout layout-align="">
-                               <input flex type="number" ng-model="locationRate" aria-label="rating" aria-controls="rating-slider">
+                               <input flex type="number" ng-model="locationRate" aria-label="rating" aria-controls="rating-slider" ng-readonly="!isLocation" min="1" max="100">
                            </md-input-container>
                        </div>
                            
@@ -189,7 +255,7 @@
                            
                        <div class="col-md-2" style="margin-top:10px">
                            <md-input-container flex="50" layout layout-align="">
-                               <input flex type="number" ng-model="gitRate" aria-label="rating" aria-controls="rating-slider">
+                               <input flex type="number" ng-model="gitRate" aria-label="rating" aria-controls="rating-slider" ng-readonly="!isGithub" min="1" max="100">
                            </md-input-container>
                            
                            
@@ -228,7 +294,7 @@
                            
                        <div class="col-md-2" style="margin-top:10px">
                            <md-input-container flex="50" layout layout-align="">
-                               <input flex type="number" ng-model="gplusRate" aria-label="rating" aria-controls="rating-slider">
+                               <input flex type="number" ng-model="gplusRate" aria-label="rating" aria-controls="rating-slider" ng-readonly="!isGplus" min="1" max="100">
                            </md-input-container>
                            
                            
@@ -253,11 +319,11 @@
                        
                    </md-content>
                     
-                           
-                           
-                       <div class="col-md-2" style="margin-top:10px">
+                       <div class="col-md-2" style="margin-top:20px">
                            <md-input-container flex="50" layout layout-align="">
-                               <input flex type="number" ng-model="totalRate" aria-label="rating" aria-controls="rating-slider">
+                              <!-- <input flex type="number" ng-model="totalRate" aria-label="rating" aria-controls="rating-slider" value="{{ getTotal() }}"> -->
+                              <span style="font-weight: bold;font-size: 18px" ng-model="tot">{{ ageRate+sexRate+locationRate+gitRate+gplusRate }}</span>
+                               <span>{{ error() }}</span>
                            </md-input-container>
                            
                            
@@ -265,12 +331,16 @@
                            
                            
                    </div>
-                   <div class="row">
-                       <div class="col-md-12">
-                           
-                       </div>
-                   </div>
                    
+                   <div class="row" >
+                       <div class="col-md-1"></div>
+                       <div class="col-md-10">
+                           <div id="donut_single" style="width: 900px; height: 500px;"></div> 
+                           
+                           <pie-chart data="data" options="options"></pie-chart>
+                       </div>
+                       <div class="col-md-1"></div>
+                   </div>
                    
                    <div class="row">
                        <div class="col-md-8"></div>
@@ -286,6 +356,8 @@
            </div>
            <div class="col-md-2"></div>
        </div>
+       
+       
 
    </body>
 </html>
